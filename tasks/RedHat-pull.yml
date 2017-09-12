@@ -1,0 +1,11 @@
+---
+- name: Install required packages for nodejs in RedHat os family by pull
+  yum: name={{item}} state=present
+  with_items:
+    - curl
+
+- name: Install nodejs setup script
+  shell: curl -sL {{ pkg_info.pull }} | bash -
+
+- name: Install nodejs
+  yum: name=nodejs state=present

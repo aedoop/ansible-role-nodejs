@@ -1,2 +1,19 @@
 ---
 # tasks file for nodejs
+
+- name: Check whether nodejs is already installed for {{ ansible_distribution  }}
+  command: "node -v"
+  failed_when: false
+  changed_when: false
+  register: version_check_result
+
+- set_fact:
+    is_installed: "{{ version_check_result.rc == 0 }}"
+
+- block:
+    - set_fact:
+        dir_info: "{{ nodejs_dir[ansible_os_family] }}"
+        pkg_info: "{{ nodejs_packages[package_version][ansible_os_family] }}"
+
+    - include: "{{ ansible_os_family }}-{{ install_mode }}.yml"
+  when: not is_installed

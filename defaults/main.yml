@@ -1,2 +1,12 @@
 ---
 # defaults file for nodejs
+
+package_name: nodejs
+package_version: 8.x
+version_check_command: node -v
+
+# user: nodejs
+# group: nodejs
+
+# push or pull
+install_mode: pull
