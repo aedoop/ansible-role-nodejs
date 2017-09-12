@@ -1,19 +1,10 @@
 ---
 # tasks file for nodejs
 
-- name: Check whether nodejs is already installed for {{ ansible_distribution  }}
-  command: "node -v"
-  failed_when: false
-  changed_when: false
-  register: version_check_result
+- name: Include window.yml in {{ ansible_distribution }} by {{ nodejs_install_type }} install
+  include: window.yml
+  when: ansible_os_family=="Windows"
 
-- set_fact:
-    is_installed: "{{ version_check_result.rc == 0 }}"
-
-- block:
-    - set_fact:
-        dir_info: "{{ nodejs_dir[ansible_os_family] }}"
-        pkg_info: "{{ nodejs_packages[package_version][ansible_os_family] }}"
-
-    - include: "{{ ansible_os_family }}-{{ install_mode }}.yml"
-  when: not is_installed
+- name: Include linux.yml in {{ ansible_distribution }} by {{ nodejs_install_type }} install
+  include: linux.yml
+  when: ansible_os_family!="Windows"

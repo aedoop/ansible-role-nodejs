@@ -6,11 +6,16 @@ nodejs_dir:
     home: apache-maven-3.5.0
     install: /usr/local
     tmp: /tmp
+  Windows:
+    tmp: C://tmp
 
 nodejs_packages:
   8.x:
     RedHat:
       pull: https://rpm.nodesource.com/setup_8.x
+    Windows:
+      file: nodejs.install.8.4.0.nupkg
+      pull: ftp://10.0.250.100/pub/nodejs/window/nodejs.install.8.4.0.nupkg
   7.x:
     RedHat:
       pull: https://rpm.nodesource.com/setup_7.x

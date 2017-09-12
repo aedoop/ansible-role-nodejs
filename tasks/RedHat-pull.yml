@@ -1,11 +1,12 @@
 ---
-- name: Install required packages for nodejs in RedHat os family by pull
+
+- name: Install required packages for nodejs in {{ ansible_distribution }} by pull install
   yum: name={{item}} state=present
   with_items:
     - curl
 
-- name: Install nodejs setup script
+- name: Install nodejs setup script in {{ ansible_distribution }} by pull install
   shell: curl -sL {{ pkg_info.pull }} | bash -
 
-- name: Install nodejs
+- name: Install nodejs in {{ ansible_distribution }} by pull install
   yum: name=nodejs state=present

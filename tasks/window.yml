@@ -1,0 +1,23 @@
+---
+
+- name: Check whether nodejs is already installed in {{ ansible_distribution }} by {{ nodejs_install_type }} install
+  win_command: "node -v"
+  failed_when: false
+  changed_when: false
+  register: version_check_result
+
+- name: Set is_installed fact in {{ ansible_distribution }} by {{ nodejs_install_type }} install
+  set_fact:
+    is_installed: "{{ version_check_result.rc == 0 }}"
+
+- block:
+    
+    - name: Set dir_info,pkg_info fact in {{ ansible_distribution }} by {{ nodejs_install_type }} install
+      set_fact:
+        dir_info: "{{ nodejs_dir[ansible_os_family] }}"
+        pkg_info: "{{ nodejs_packages[nodejs_version][ansible_os_family] }}"
+
+    - name: Include {{ ansible_os_family }}-{{ nodejs_install_type }}.yml in {{ ansible_distribution }} by {{ nodejs_install_type }} install
+      include: "{{ ansible_os_family }}-{{ nodejs_install_type }}.yml"
+
+  when: not is_installed
